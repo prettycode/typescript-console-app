@@ -38,7 +38,7 @@ function getAppConfig(): AppConfig {
     const { SECRET_KEY } = environmentalVariables;
 
     if (!SECRET_KEY) {
-        // throw new Error('SECRET_KEY is not set in the .env file.');
+        throw new Error('SECRET_KEY is not set in the .env file.');
     }
 
     const defaultDebug = false;
