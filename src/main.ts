@@ -2,23 +2,23 @@ import { parse } from 'ts-command-line-args';
 import dotenv from 'dotenv';
 
 type CommandLineArgs = {
-    example1?: number;
-    example2?: string;
+    debug?: boolean;
+    start?: string;
 };
 
 type AppConfig = {
     secretKey: string;
-    setting2: number;
-    setting3: string;
+    isDebug: boolean;
+    startDateTimeInclusive: number;
 };
 
 function getCommandLineArgs(): CommandLineArgs {
     return parse<CommandLineArgs>({
-        example1: {
-            type: Number,
+        debug: {
+            type: Boolean,
             optional: true
         },
-        example2: {
+        start: {
             type: String,
             optional: true
         }
@@ -40,13 +40,23 @@ function getAppConfig(): AppConfig {
         // throw new Error('SECRET_KEY is not set in the .env file.');
     }
 
-    const defaultExample1 = 42069;
-    const defaultExample2 = 'default value';
+    const defaultDebug = false;
+    const defaultStartDateTimeInclusive = 0;
+
+    if (cliArguments.start) {
+        const startParsed = new Date(cliArguments.start).getTime();
+
+        if (Number.isNaN(startParsed)) {
+            throw new Error(`Invalid start date argument value: '${cliArguments.start}'. Use an ISO 8601 date string.`);
+        }
+    }
 
     return {
         secretKey: SECRET_KEY || '',
-        setting2: cliArguments.example1 ?? defaultExample1,
-        setting3: cliArguments.example2 ?? defaultExample2
+        isDebug: cliArguments.debug ?? defaultDebug,
+        startDateTimeInclusive: !cliArguments.start
+            ? defaultStartDateTimeInclusive
+            : new Date(cliArguments.start).getTime()
     };
 }
 
