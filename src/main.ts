@@ -43,10 +43,12 @@ function getAppConfig(): AppConfig {
     const defaultDebug = false;
     const defaultStartDateTimeInclusive = 0;
 
-    if (cliArguments.start) {
-        const startParsed = new Date(cliArguments.start).getTime();
+    let startDateTimeInclusive = defaultStartDateTimeInclusive;
 
-        if (Number.isNaN(startParsed)) {
+    if (cliArguments.start) {
+        startDateTimeInclusive = new Date(cliArguments.start).getTime();
+
+        if (Number.isNaN(startDateTimeInclusive)) {
             throw new Error(`Invalid start date argument value: '${cliArguments.start}'. Use an ISO 8601 date string.`);
         }
     }
@@ -54,9 +56,7 @@ function getAppConfig(): AppConfig {
     return {
         secretKey: SECRET_KEY || '',
         isDebug: cliArguments.debug ?? defaultDebug,
-        startDateTimeInclusive: !cliArguments.start
-            ? defaultStartDateTimeInclusive
-            : new Date(cliArguments.start).getTime()
+        startDateTimeInclusive
     };
 }
 
