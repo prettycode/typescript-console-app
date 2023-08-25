@@ -5,7 +5,8 @@ export const csv = (array: Array<Record<string, string | number | boolean | unde
             (item) =>
                 '"' +
                 Object.values(item)
-                    .map((item) => item?.toString().replace(/"/g, '\''))
+                    // '\x27' is the hex code for the single quote character
+                    .map((item) => item?.toString().replace(/"/g, '\x27'))
                     .join('","') +
                 '"'
         )

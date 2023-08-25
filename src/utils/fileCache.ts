@@ -1,7 +1,7 @@
 import { hashCode } from './hash';
 import { safeFilename } from './safeFilename';
-import { deserialize as jsonDeserialize, serialize as jsonSerialize } from './json';
-import { dirExists, fileExists, getFileText as getFileText, makeDir, putFileText } from './fs';
+import { jsonDeserialize, jsonSerialize } from './json';
+import { dirExists, fileExists, getFileText, makeDir, putFileText } from './fs';
 
 /**
  * Directory to put cache files in.
