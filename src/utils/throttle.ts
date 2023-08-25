@@ -1,4 +1,4 @@
-import { sleep } from '../../../utils/sleep';
+import { sleep } from './sleep';
 
 export async function throttle<T>({ ms, sec }: { ms?: number; sec?: number }, promise: Promise<T>): Promise<T> {
     await sleep({ ms, sec });

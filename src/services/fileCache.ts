@@ -1,38 +1,60 @@
 import { hashCode } from '../utils/hash';
-import fs from 'fs';
+import { safeFilename } from '../utils/safeFilename';
+import { deserialize as jsonDeserialize, serialize as jsonSerialize } from '../utils/json';
+import { dirExists, fileExists, getFileText as getFileText, makeDir, putFileText } from '../utils/fs';
 
-const CACHE_PATH = './.cache';
+/**
+ * Directory to put cache files in.
+ */
+let cachePathRoot = './.cache';
 
+/**
+ * Intermediary cache layer to reduce IO for `get` calls.
+ */
 const memoryCache: Record<string, string> = {};
-const filenameAndCacheKey = (urlPath: string): string =>
-    `./${CACHE_PATH}/${safeFilename(urlPath)}.${hashCode(urlPath)}.json`;
 
-if (!fs.existsSync(CACHE_PATH)) {
-    fs.mkdirSync(CACHE_PATH);
-}
+/**
+ * Get the filepath that a cache entry should be written to.
+ */
+const safeFilenameCacheKey = (key: string): string => `./${cachePathRoot}/${safeFilename(key)}.${hashCode(key)}.json`;
 
-export class FileCache {
-    public static async get<TReturn>(key: string): Promise<TReturn | undefined> {
-        const cacheKey = filenameAndCacheKey(key);
-        let cacheContents: string | undefined = memoryCache[cacheKey];
+/**
+ * Make sure we can read from/write to the cache directory before we actually try to. The function is invoked upon
+ * module import, but can be invoked again later to change the cache directory.
+ */
+export const setCachePath = async (cachePath?: string): Promise<void> => {
+    if (cachePath) {
+        cachePathRoot = cachePath;
+    }
 
-        if (!cacheContents) {
-            const cacheEntryExists = fs.existsSync(cacheKey);
+    if (!(await dirExists(cachePathRoot))) {
+        await makeDir(cachePathRoot);
+    }
+};
 
-            if (!cacheEntryExists) {
-                return undefined;
-            }
+export const get = async <TReturn>(key: string): Promise<TReturn | undefined> => {
+    const cacheKey = safeFilenameCacheKey(key);
+    let cacheContents: string | undefined = memoryCache[cacheKey];
 
-            memoryCache[cacheKey] = cacheContents = await fs.promises.readFile(cacheKey, 'utf-8');
+    if (!cacheContents) {
+        const cacheEntryExists = await fileExists(cacheKey);
+
+        if (!cacheEntryExists) {
+            return undefined;
         }
 
-        return JSON.parse(cacheContents) as TReturn;
+        memoryCache[cacheKey] = cacheContents = await getFileText(cacheKey);
     }
 
-    public static async set<T>(key: string, value: T): Promise<void> {
-        const cacheKey = filenameAndCacheKey(key);
-        const cacheContents = JSON.stringify(value, null, '    ');
+    return jsonDeserialize(cacheContents);
+};
 
-        await fs.promises.writeFile(cacheKey, cacheContents, 'utf-8');
-    }
-}
+export const put = async <T>(key: string, value: T): Promise<void> => {
+    const cacheKey = safeFilenameCacheKey(key);
+    const cacheContents = jsonSerialize(value);
+
+    memoryCache[cacheKey] = cacheContents;
+    await putFileText(cacheKey, cacheContents);
+};
+
+setCachePath();
