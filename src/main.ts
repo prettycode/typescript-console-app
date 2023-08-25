@@ -2,24 +2,23 @@ import { parse } from 'ts-command-line-args';
 import dotenv from 'dotenv';
 
 type CommandLineArgs = {
-    withdrawalsStartEpoch?: number;
-    ignoreRecordsBeforeInclusive?: string;
+    example1?: number;
+    example2?: string;
 };
 
-export type AppConfig = {
-    beaconchainApiKey: string;
-    validatorEthAddress: string;
-    withdrawalsStartEpoch: number;
-    ignoreRecordsBeforeInclusive: number;
+type AppConfig = {
+    setting1: boolean;
+    setting2: number;
+    setting3: string;
 };
 
 function getCommandLineArgs(): CommandLineArgs {
     return parse<CommandLineArgs>({
-        withdrawalsStartEpoch: {
+        example1: {
             type: Number,
             optional: true
         },
-        ignoreRecordsBeforeInclusive: {
+        example2: {
             type: String,
             optional: true
         }
@@ -29,34 +28,16 @@ function getCommandLineArgs(): CommandLineArgs {
 function getAppConfig(): AppConfig {
     dotenv.config();
 
-    const beaconchainApiKey = process.env.BEACONCHAIN_APIKEY;
-
-    if (!beaconchainApiKey) {
-        throw new Error('Missing `BEACONCHAIN_APIKEY` environmental variable.');
-    }
-
-    const validatorEthAddress = process.env.VALIDATOR_ETHADDRESS;
-
-    if (!validatorEthAddress) {
-        throw new Error('Missing `VALIDATOR_ETHADDRESS` environmental variable.');
-    }
-
+    const environmentalVariables = process.env;
     const args = getCommandLineArgs();
 
-    let withdrawalsStartEpoch = Number(args.withdrawalsStartEpoch);
-
-    if (isNaN(withdrawalsStartEpoch) || withdrawalsStartEpoch === 0) {
-        // The first epoch that withdrawals were enabled in
-        withdrawalsStartEpoch = 194516;
-    }
-
-    const ignoreRecordsBeforeInclusive = new Date(args.ignoreRecordsBeforeInclusive || 0).getTime();
+    const defaultExample1 = 42069;
+    const defaultExample2 = 'default value';
 
     return {
-        beaconchainApiKey,
-        validatorEthAddress,
-        withdrawalsStartEpoch,
-        ignoreRecordsBeforeInclusive
+        setting1: environmentalVariables.SETTING1 === 'true',
+        setting2: args.example1 ?? defaultExample1,
+        setting3: args.example2 ?? defaultExample2
     };
 }
 
