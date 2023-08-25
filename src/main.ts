@@ -26,8 +26,14 @@ function getCommandLineArgs(): CommandLineArgs {
 }
 
 function getEnvironmentalVariables(): NodeJS.ProcessEnv {
-    const environment = process.env.NODE_ENV || 'local';
-    dotenv.config({ path: `.env.${environment}` });
+    const environment = process.env.NODE_ENV;
+
+    if (environment) {
+        dotenv.config({ path: `.env.${environment.trim()}` });
+    } else {
+        dotenv.config();
+    }
+
     return process.env;
 }
 

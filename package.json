@@ -1,4 +1,6 @@
 {
+    "name": "typescript-console-app-template",
+    "version": "0.0.0",
     "author": {
         "name": "Chris O'Brien"
     },
@@ -15,7 +17,7 @@
         "versions": "node -v && npm -v",
         "start": "npm run build:local && npm run run",
         "precommit": "npm run build:local && npm run build:ci && npm run run",
-        "run": "ts-node src/program.ts"
+        "run": "set NODE_ENV=example && ts-node src/program.ts"
     },
     "dependencies": {
         "dotenv": "^16.3.1",
