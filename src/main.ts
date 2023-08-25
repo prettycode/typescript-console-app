@@ -7,7 +7,7 @@ type CommandLineArgs = {
 };
 
 type AppConfig = {
-    setting1: boolean;
+    secretKey: string;
     setting2: number;
     setting3: string;
 };
@@ -34,16 +34,27 @@ function getAppConfig(): AppConfig {
     const environmentalVariables = getEnvironmentalVariables();
     const cliArguments = getCommandLineArgs();
 
+    const { SECRET_KEY } = environmentalVariables;
+
+    if (!SECRET_KEY) {
+        // throw new Error('SECRET_KEY is not set in the .env file.');
+    }
+
     const defaultExample1 = 42069;
     const defaultExample2 = 'default value';
 
     return {
-        setting1: environmentalVariables.SETTING1 === 'true',
+        secretKey: SECRET_KEY || '',
         setting2: cliArguments.example1 ?? defaultExample1,
         setting3: cliArguments.example2 ?? defaultExample2
     };
 }
 
 export async function main(): Promise<void> {
-    console.log(getAppConfig());
+    const appConfig = getAppConfig();
+    // Disabling because the secretKey is intentionally being discarded
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { secretKey, ...logSafeAppConfig } = appConfig;
+
+    console.log(logSafeAppConfig);
 }
