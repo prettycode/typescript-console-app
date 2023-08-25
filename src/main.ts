@@ -25,24 +25,25 @@ function getCommandLineArgs(): CommandLineArgs {
     });
 }
 
-function getAppConfig(): AppConfig {
+function getEnvironmentalVariables(): NodeJS.ProcessEnv {
     dotenv.config();
+    return process.env;
+}
 
-    const environmentalVariables = process.env;
-    const args = getCommandLineArgs();
+function getAppConfig(): AppConfig {
+    const environmentalVariables = getEnvironmentalVariables();
+    const cliArguments = getCommandLineArgs();
 
     const defaultExample1 = 42069;
     const defaultExample2 = 'default value';
 
     return {
         setting1: environmentalVariables.SETTING1 === 'true',
-        setting2: args.example1 ?? defaultExample1,
-        setting3: args.example2 ?? defaultExample2
+        setting2: cliArguments.example1 ?? defaultExample1,
+        setting3: cliArguments.example2 ?? defaultExample2
     };
 }
 
 export async function main(): Promise<void> {
-    const config = getAppConfig();
-
-    console.log(config);
+    console.log(getAppConfig());
 }
