@@ -1,4 +1,8 @@
 {
+    "author": {
+        "name": "Chris O'Brien"
+    },
+    "license": "MIT",
     "scripts": {
         "prettier:ci": "npx prettier . --check",
         "prettier:fix": "npx prettier . --write",
@@ -9,7 +13,6 @@
         "start": "npm run build:local && ts-node src/index.ts"
     },
     "dependencies": {
-        "axios": "^1.3.5",
         "dotenv": "^16.0.3"
     },
     "devDependencies": {
