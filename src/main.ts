@@ -55,7 +55,7 @@ function getAppConfig(): AppConfig {
     }
 
     return {
-        secretKey: SECRET_KEY || '',
+        secretKey: SECRET_KEY,
         isDebug: cliArguments.debug ?? defaultDebug,
         startDateTimeInclusive
     };
