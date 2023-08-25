@@ -1,7 +1,7 @@
-import { hashCode } from '../utils/hash';
-import { safeFilename } from '../utils/safeFilename';
-import { deserialize as jsonDeserialize, serialize as jsonSerialize } from '../utils/json';
-import { dirExists, fileExists, getFileText as getFileText, makeDir, putFileText } from '../utils/fs';
+import { hashCode } from './hash';
+import { safeFilename } from './safeFilename';
+import { deserialize as jsonDeserialize, serialize as jsonSerialize } from './json';
+import { dirExists, fileExists, getFileText as getFileText, makeDir, putFileText } from './fs';
 
 /**
  * Directory to put cache files in.
@@ -22,7 +22,7 @@ const safeFilenameCacheKey = (key: string): string => `./${cachePathRoot}/${safe
  * Make sure we can read from/write to the cache directory before we actually try to. The function is invoked upon
  * module import, but can be invoked again later to change the cache directory.
  */
-export const setCachePath = async (cachePath?: string): Promise<void> => {
+export const setFileCachePath = async (cachePath?: string): Promise<void> => {
     if (cachePath) {
         cachePathRoot = cachePath;
     }
@@ -32,7 +32,7 @@ export const setCachePath = async (cachePath?: string): Promise<void> => {
     }
 };
 
-export const get = async <TReturn>(key: string): Promise<TReturn | undefined> => {
+export const fileCacheGet = async <TReturn>(key: string): Promise<TReturn | undefined> => {
     const cacheKey = safeFilenameCacheKey(key);
     let cacheContents: string | undefined = memoryCache[cacheKey];
 
@@ -49,7 +49,7 @@ export const get = async <TReturn>(key: string): Promise<TReturn | undefined> =>
     return jsonDeserialize(cacheContents);
 };
 
-export const put = async <T>(key: string, value: T): Promise<void> => {
+export const fileCachePut = async <T>(key: string, value: T): Promise<void> => {
     const cacheKey = safeFilenameCacheKey(key);
     const cacheContents = jsonSerialize(value);
 
@@ -57,4 +57,4 @@ export const put = async <T>(key: string, value: T): Promise<void> => {
     await putFileText(cacheKey, cacheContents);
 };
 
-setCachePath();
+setFileCachePath();

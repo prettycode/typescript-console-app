@@ -1,11 +1,11 @@
 {
     "scripts": {
-        "lint:ci": "npx eslint . --max-warnings=0",
-        "lint:fix": "npx eslint . --fix",
         "prettier:ci": "npx prettier . --check",
         "prettier:fix": "npx prettier . --write",
-        "build:ci": "npm ci && npm audit && npm run lint:ci && npm run prettier:ci",
-        "build:local": "npm install && npm run lint:fix && npm run prettier:fix",
+        "lint:ci": "npx eslint . --max-warnings=0",
+        "lint:fix": "npx eslint . --fix",
+        "build:ci": "npm ci && npm audit && npm run prettier:ci && npm run lint:ci",
+        "build:local": "npm install && npm run prettier:fix && npm run lint:fix",
         "start": "npm run build:local && ts-node src/index.ts"
     },
     "dependencies": {

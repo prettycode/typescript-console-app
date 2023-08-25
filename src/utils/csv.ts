@@ -5,7 +5,7 @@ export const csv = (array: Array<Record<string, string | number | boolean | unde
             (item) =>
                 '"' +
                 Object.values(item)
-                    .map((item) => item?.toString().replace(/"/g, "'"))
+                    .map((item) => item?.toString().replace(/"/g, '\''))
                     .join('","') +
                 '"'
         )
