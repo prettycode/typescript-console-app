@@ -1,6 +1,14 @@
+## TO-DO
+
+1. Add tests and testing-related npm scripts, and incorporate testing-related scripts into existing scripts as-needed (i.e. `build:*`)
+2. Add Azure Pipeline YAML.
+3. Resolve questions in README.md.
+4. Complete incomplete tasks (❌) irom README.md.
+5. Add everything for requirement: any packages used in this project must be approved/disapproved according to a `.package-licenes.json` file.
+
 ## NPM Scripts
 
-Available scripts in this project should meet these **requirements**:
+These **requirements** should be fulfilled by the available npm scripts in this project:
 
 1. Developer must be able to know what version of Node.js is required to run the project by reading the contents of this project's `package.json` file. (❌)
 2. Developer must be able to run an npm script that switches to the appropriate version of Node that's required to run the project, without knowing what that version is. (❌)
@@ -19,15 +27,7 @@ Available scripts in this project should meet these **requirements**:
 9. Developer must be able to run an npm script that checks for CI rule violations before committing code.
    (`npm run build:ci`)
 
-**CI rules** (`npm run build:ci` + `npm run start:ci`):
-
-1. No package may be older than the latest minor and patch version.
-2. No packages may have known security vulnerabilities of _any_ severity.
-3. No files may have any formatting-style violations.
-4. No code may have any coding guideline violations.
-5. The program must be able to execute without returning a non-zero exit code after building.
-
-NPM **scripts** in this project:
+The **npm scripts** in this project:
 
 -   `start` — Installs any missing packages and runs the TypeScript program within a context of the required environmental variables set.
 -   `versions` — Displays the current versions of Node.js and npm.
@@ -47,7 +47,7 @@ NPM **scripts** in this project:
 -   `start:fix` — Runs `build:fix`, then `start:ci`.
 -   `precommit` — Runs `build:fix`, `build:ci`, then `start:ci`. Useful for double-checking everything is ready for committing.
 
-Resulting typical **developer workflow**:
+The typical **developer workflow** that results from using these scripts:
 
 1. Clone repository.
 2. `npm start` to see what it does/whether it appears to work.
@@ -61,3 +61,12 @@ Resulting typical **developer workflow**:
 10. `npm run start:ci` to validate iterations quickly.
 11. Ready to commit code.
 12. `npm run precommit` to run full fix and validation process before submitting.
+
+The **CI rules** a branch must pass to succeed build validation:
+
+1. No package may be older than the latest minor and patch version. (❌ `npm update --save` but with with _major_ versions; have to do `npm install XYZ@latest --save[-dev]` for each package as a workaround)
+2. No packages may have known security vulnerabilities of _any_ severity.
+3. No files may have any formatting-style violations.
+4. No code may have any coding guideline violations.
+5. No unit tests may be failing.
+6. The program must be able to execute without returning a non-zero exit code after building.
