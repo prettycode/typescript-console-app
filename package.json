@@ -19,9 +19,10 @@
         "lint:ci": "npx eslint . --max-warnings=0",
         "lint:fix": "npx eslint . --fix",
         "build:ci": "npm run versions && npm run install:ci && npm run outdated:ci && npm run audit:ci && npm run prettier:ci && npm run lint:ci && npm run test:ci",
-        "build:fix": "npm run versions && npm run install:local && npm run outdated:fix && npm run audit:fix && npm run prettier:fix && npm run lint:fix",
-        "test:ci": "npx ts-node src/utils/fs.test.ts",
-        "test:jest": "npx jest",
+        "build:fix": "npm run versions && npm run install:local && npm run outdated:fix && npm run audit:fix && npm run prettier:fix && npm run lint:fix && npm run test:jest:local",
+        "test:ci": "npm run test:jest:ci",
+        "test:jest:ci": "npx jest --ci",
+        "test:jest:local": "npx jest",
         "start:ci": "set NODE_ENV=example && npx ts-node src/program.ts",
         "start:fix": "npm run build:fix && npm run start:ci",
         "precommit": "npm run build:fix && npm run build:ci && npm run start:ci"
