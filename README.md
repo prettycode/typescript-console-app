@@ -4,7 +4,8 @@
 2. Add Azure Pipeline YAML.
 3. Resolve questions in README.md.
 4. Complete incomplete tasks (❌) irom README.md.
-5. Add everything for requirement: any packages used in this project must be approved/disapproved according to a `.package-licenes.json` file.
+5. Add everything for requirement: any packages used in this project must be approved/disapproved according to a `.package-licene-approvelist.json` file.
+6. Code coverage?
 
 ## NPM Scripts
 
