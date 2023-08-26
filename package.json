@@ -6,6 +6,7 @@
     },
     "license": "MIT",
     "scripts": {
+        "start": "npm run versions && npm run install:ci && npm run start:ci",
         "versions": "echo node: && node -v && echo npm: && npm -v",
         "install:ci": "npm ci",
         "install:local": "npm install",
@@ -18,10 +19,10 @@
         "lint:ci": "npx eslint . --max-warnings=0",
         "lint:fix": "npx eslint . --fix",
         "build:ci": "npm run versions && npm run install:ci && npm run outdated:ci && npm run audit:ci && npm run prettier:ci && npm run lint:ci",
-        "build:local": "npm run versions && npm run install:local && npm run outdated:fix && npm run audit:fix && npm run prettier:fix && npm run lint:fix",
-        "start": "set NODE_ENV=example && ts-node src/program.ts",
-        "start:local": "npm run build:local && npm start",
-        "precommit": "npm run build:local && npm run build:ci && npm start"
+        "build:fix": "npm run versions && npm run install:local && npm run outdated:fix && npm run audit:fix && npm run prettier:fix && npm run lint:fix",
+        "start:ci": "set NODE_ENV=example && ts-node src/program.ts",
+        "start:fix": "npm run build:fix && npm run start:ci",
+        "precommit": "npm run build:fix && npm run build:ci && npm run start:ci"
     },
     "dependencies": {
         "dotenv": "^16.3.1",
