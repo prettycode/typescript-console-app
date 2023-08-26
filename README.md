@@ -67,7 +67,8 @@ The **CI rules** a branch must pass to succeed build validation:
 
 1. No package may be older than the latest minor and patch version. (❌ `npm update --save` but with with _major_ versions; have to do `npm install XYZ@latest --save[-dev]` for each package as a workaround)
 2. No packages may have known security vulnerabilities of _any_ severity.
-3. No files may have any formatting-style violations.
-4. No code may have any coding guideline violations.
-5. No unit tests may be failing.
-6. The program must be able to execute without returning a non-zero exit code after building.
+3. No npm script may rely on npm packages installed globally. (`npx only`?)
+4. No files may have any formatting-style violations.
+5. No code may have any coding guideline violations.
+6. No unit tests may be failing.
+7. The program must be able to execute without returning a non-zero exit code after building.
