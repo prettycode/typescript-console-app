@@ -3,19 +3,20 @@
 Available scripts in this project should meet these requirements:
 
 1. Developer must be able to know what version of Node.js is required to run the project by reading the contents of this project's `package.json` file.
-2. Developer must be able to run an npm script in this project's `package.json` file that switches to the appropriate version of Node that's required to run the project, without knowing what that version is.
-3. Developer must be able to clone repository, run `npm start`, and have the program execute with a successful exit code, regardless of the developer's Node version and versions of any of the developers's globally-installed packages.
-4. Developer must be able to issue a command that automatically "cleans up" the formatting of any code they've modified.
-5. Developer must be able to check for any potential CI Rule violations before committing code.
-6. Developer must be able to automatically fix any fixable CI Rule violations before committing code.
+2. Developer must be able to run an npm script that switches to the appropriate version of Node that's required to run the project, without knowing what that version is.
+3. Developer must be able to clone repository, run `npm start`, and have the program execute without returning a non-zero exit code, regardless of the developer's Node and globally-installed package versions.
+4. Developer must be able to run an npm script that "cleans up" the formatting of all files in the project.
+5. Developer must be able to run an npm script that fixes any fixable coding guideline violations in all the code in the project.
+6. Developer must be able to run an npm script that fixes any fixable CI Rule violations before committing code.
+7. Developer must be able to run an npm script that checks for CI Rule violations before committing code.
 
 CI Rules:
 
 1. No package may be older than the latest minor and patch version.
 2. No packages may have known security vulnerabilities of _any_ severity.
 3. No files may have any formatting-style violations.
-4. No code may have any best-practices violations.
-5. The program must be able to execute without non-zero exit code ater building.
+4. No code may have any coding guideline violations.
+5. The program must be able to execute without returning a non-zero exit code after building.
 
 NPM Scripts in this project:
 
