@@ -36,6 +36,7 @@ The **npm scripts** in this project:
 -   `install:local` — Installs any missing packages.
 -   `outdated:ci` — Reports any packages with newer published version. Non-zero exit code if there are any.
 -   `outdated:fix` — Updates any existing package to latest _minor_ and patch version, and saves the new version numbers to `package.json` and `package-lock.json`.
+-   `outdated:fix:latest` — Updates all packages in `package.json` to latest _major_ version, and saves the new version numbers to `package.json` and `package-lock.json`.
 -   `audit:ci` — Runs a security audit without making any changes. Non-zero exit code if it finds _any_-severity package vulnerability.
 -   `audit:fix` — Updates packages that have security vulnerabilities, and saves the new version numbers to `package.json` and `package-lock.json`. Forces _major_ semver version changes if necessary.
 -   `prettier:ci` — Checks if files conform to Prettier's styling rules. Non-zero exit code if violations are found.
