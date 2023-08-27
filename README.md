@@ -5,7 +5,7 @@
 -   Add everything for requirement: any packages used in this project must be approved/disapproved according to a `.package-license-approvelist.json` file.
 -   `--check` version of `updateAllPackagesToLatest.ts` for CI
 
-## NPM Scripts
+## Project npm Scripts
 
 These **requirements** should be fulfilled by the available npm scripts in this project:
 
@@ -26,7 +26,7 @@ These **requirements** should be fulfilled by the available npm scripts in this 
 -   Developer must be able to run an npm script that checks for CI rule violations before committing code.
     (`npm run build:ci`)
 
-The **npm scripts** in this project:
+The **npm scripts** available in this project:
 
 -   `start` — Installs any missing packages and runs the TypeScript program within a context of the required environmental variables set.
 -   `versions` — Displays the current versions of Node.js and npm.
@@ -47,7 +47,8 @@ The **npm scripts** in this project:
 -   `test:local` — Runs the tests and generate code coverage to path `./coverage`.
 -   `start:ci` — Runs the TypeScript program within a context of the required environmental variables set.
 -   `start:fix` — Runs `build:fix`, then `start:ci`.
--   `precommit` — Runs `build:fix`, `build:ci`, then `start:ci`. Useful for double-checking everything is ready for committing.
+-   `precommit` — Runs `build:fix`, then `ci`. Useful for double-checking everything is ready for committing.
+-   `ci` — Runs `build:ci`, then `start:ci`. The npm script the CI agent should run for pass/fail.
 
 The typical **developer workflow** that results from using these scripts:
 
@@ -64,6 +65,8 @@ The typical **developer workflow** that results from using these scripts:
 11. Ready to commit code.
 12. `npm run precommit` to run full fix and validation process before submitting.
 
+## Build and Continuous Integration (CI)
+
 The **CI rules** a branch must pass to succeed build validation:
 
 -   No package may be older than the latest minor and patch version.
@@ -73,3 +76,11 @@ The **CI rules** a branch must pass to succeed build validation:
 -   No code may have any coding guideline violations.
 -   No unit tests may be failing.
 -   The program must be able to execute without returning a non-zero exit code after building.
+-   All the CI rules can be validated by running a single npm script (❌)
+
+The **build artifacts** that should be published for by each build:
+
+-   Test results
+-   Code coverage results
+-   NPM audit report (standalone, i.e. not stdout logs) (❌)
+-   Report of licenses used by packages in this project (❌)

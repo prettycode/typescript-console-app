@@ -25,7 +25,8 @@
         "test:local": "npx jest",
         "start:ci": "set NODE_ENV=example && npx ts-node src/program.ts",
         "start:fix": "npm run build:fix && npm run start:ci",
-        "precommit": "npm run build:fix && npm run build:ci && npm run start:ci"
+        "precommit": "npm run build:fix && npm run ci",
+        "ci": "npm run build:ci && npm run start:ci"
     },
     "dependencies": {
         "dotenv": "^16.3.1",
