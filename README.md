@@ -1,32 +1,30 @@
-## TO-DO
+## TO-DO (Unordered)
 
-1. Add tests and testing-related npm scripts, and incorporate testing-related scripts into existing scripts as-needed (i.e. `build:*`)
-2. Add Azure Pipeline YAML.
-3. Resolve questions in README.md.
-4. Complete incomplete tasks (❌) irom README.md.
-5. Add everything for requirement: any packages used in this project must be approved/disapproved according to a `.package-licene-approvelist.json` file.
-6. Code coverage?
+-   Add Azure Pipeline YAML.
+-   Complete incomplete tasks (❌) irom README.md.
+-   Add everything for requirement: any packages used in this project must be approved/disapproved according to a `.package-license-approvelist.json` file.
+-   `--check` version of `updateAllPackagesToLatest.ts` for CI
 
 ## NPM Scripts
 
 These **requirements** should be fulfilled by the available npm scripts in this project:
 
-1. Developer must be able to know what version of Node.js is required to run the project by reading the contents of this project's `package.json` file. (❌)
-2. Developer must be able to run an npm script that switches to the appropriate version of Node that's required to run the project, without knowing what that version is. (❌)
-3. Developer must be able to clone repository, run `npm start`, and have the program execute without returning a non-zero exit code, regardless of the developer's Node and globally-installed package versions.
-   (`npm start` + ❌)
+1. Developer must be able to clone repository, run `npm start`, and have the program execute (✔️) without (❌) returning a non-zero exit code, regardless of the developer's Node and globally-installed package versions.
+2. Developer must be able to know what version of Node.js is required to run the project by reading the contents of this project's `package.json` file. (❌)
+3. Developer must be able to run an npm script that switches to the appropriate version of Node that's required to run the project, without knowing what that version is. (❌)
 4. Developer must be able to know what version of npm was used to generate the `package-lock.json` file by reading the contents of this project's `package.json` file.
    (devDependency in `package.json`)
-5. Developer must be able to run an npm script that "cleans up" the formatting of all files in the project.
-   (`npm run prettier:fix`)
-6. Developer must be able to run an npm script that fixes all fixable coding guideline violations in all the code in the project.
-   (`npm run lint:fix`)
-7. Developer must be able to run an npm script that fixes all fixable `npm audit` vulnerabilities.
-   (`npm run audit:fix`)
-8. Developer must be able to run an npm script that fixes all fixable CI rule violations before committing code.
-   (`npm run build:fix`)
-9. Developer must be able to run an npm script that checks for CI rule violations before committing code.
-   (`npm run build:ci`)
+
+-   Developer must be able to run an npm script that "cleans up" the formatting of all files in the project.
+    (`npm run prettier:fix`)
+-   Developer must be able to run an npm script that fixes all fixable coding guideline violations in all the code in the project.
+    (`npm run lint:fix`)
+-   Developer must be able to run an npm script that fixes all fixable `npm audit` vulnerabilities.
+    (`npm run audit:fix`)
+-   Developer must be able to run an npm script that fixes all fixable CI rule violations before committing code.
+    (`npm run build:fix`)
+-   Developer must be able to run an npm script that checks for CI rule violations before committing code.
+    (`npm run build:ci`)
 
 The **npm scripts** in this project:
 
@@ -68,10 +66,10 @@ The typical **developer workflow** that results from using these scripts:
 
 The **CI rules** a branch must pass to succeed build validation:
 
-1. No package may be older than the latest minor and patch version. (❌ `npm update --save` but with with _major_ versions; have to do `npm install XYZ@latest --save[-dev]` for each package as a workaround)
-2. No packages may have known security vulnerabilities of _any_ severity.
-3. No npm script may rely on npm packages installed globally.
-4. No files may have any formatting-style violations.
-5. No code may have any coding guideline violations.
-6. No unit tests may be failing.
-7. The program must be able to execute without returning a non-zero exit code after building.
+-   No package may be older than the latest minor and patch version.
+-   No packages may have known security vulnerabilities of _any_ severity.
+-   No npm script may rely on npm packages installed globally.
+-   No files may have any formatting-style violations.
+-   No code may have any coding guideline violations.
+-   No unit tests may be failing.
+-   The program must be able to execute without returning a non-zero exit code after building.
