@@ -32,12 +32,12 @@ The **npm scripts** in this project:
 
 -   `start` — Installs any missing packages and runs the TypeScript program within a context of the required environmental variables set.
 -   `versions` — Displays the current versions of Node.js and npm.
--   `install:ci` — Deletes the `node_modules` folder and installs packages according to `package-lock.json`.
+-   `install:ci` — Deletes the `node_modules` folder and installs packages according to `package-lock.json` (_not_ `package.json`).
 -   `install:local` — Installs any missing packages.
 -   `outdated:ci` — Reports any packages with newer published version. Non-zero exit code if there are any.
--   `outdated:fix` — Updates any existing package to latest _minor_ and patch version, and saves the new version numbers to `package.json` (and `package-lock.json`?).
+-   `outdated:fix` — Updates any existing package to latest _minor_ and patch version, and saves the new version numbers to `package.json` and `package-lock.json`.
 -   `audit:ci` — Runs a security audit without making any changes. Non-zero exit code if it finds _any_-severity package vulnerability.
--   `audit:fix` — Updates packages that have security vulnerabilities(, and save the new version numbers to `package.json` and `package-lock.json`?). Forces _major_ semver version changes if necessary.
+-   `audit:fix` — Updates packages that have security vulnerabilities, and saves the new version numbers to `package.json` and `package-lock.json`. Forces _major_ semver version changes if necessary.
 -   `prettier:ci` — Checks if files conform to Prettier's styling rules. Non-zero exit code if violations are found.
 -   `prettier:fix` — Automatically fixes Prettier styling violations by reformatting files. Run _before_ linting.
 -   `lint:ci` — Checks for linting violations. Non-zero exit code if it finds _any_ violations.
@@ -67,7 +67,7 @@ The **CI rules** a branch must pass to succeed build validation:
 
 1. No package may be older than the latest minor and patch version. (❌ `npm update --save` but with with _major_ versions; have to do `npm install XYZ@latest --save[-dev]` for each package as a workaround)
 2. No packages may have known security vulnerabilities of _any_ severity.
-3. No npm script may rely on npm packages installed globally. (`npx only`?)
+3. No npm script may rely on npm packages installed globally.
 4. No files may have any formatting-style violations.
 5. No code may have any coding guideline violations.
 6. No unit tests may be failing.
