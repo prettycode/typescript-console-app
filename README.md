@@ -45,6 +45,8 @@ The **npm scripts** in this project:
 -   `lint:fix` — Automatically fixes fixable linting violations. Run _after_ prettifying.
 -   `build:ci` — Display tooling versions, delete `node_modules` and install packages from `package-lock.json`, exit if any npm packages are outdated, exit if there are _any_ security vulnerabilities, exit if there are any styling violations, and exit if there are _any_ linting violations.
 -   `build:fix` — Display tooling versions, installs packages, update those packages and `package.json`` to latest _minor_ (or patch) versions, fix any security vulnerabilities by (if necessary) updating packages to latest _major_ versions, fix any style/formatting violations, and fix any linting violations.
+-   `test:ci` — Runs the tests and generate code coverage to path `./coverage`. Non-zero exit code if any tests fail.
+-   `test:local` — Runs the tests and generate code coverage to path `./coverage`.
 -   `start:ci` — Runs the TypeScript program within a context of the required environmental variables set.
 -   `start:fix` — Runs `build:fix`, then `start:ci`.
 -   `precommit` — Runs `build:fix`, `build:ci`, then `start:ci`. Useful for double-checking everything is ready for committing.
