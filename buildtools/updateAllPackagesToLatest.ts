@@ -3,13 +3,18 @@
 import fs from 'fs';
 import { execSync } from 'child_process';
 
+type PackageJsonDependencies = Record<string, string>;
+
 type PackageJson = {
-    dependencies?: Record<string, string>;
-    devDependencies?: Record<string, string>;
+    dependencies?: PackageJsonDependencies;
+    devDependencies?: PackageJsonDependencies;
 };
 
-const updateDependencies = (deps: Record<string, string>, saveFlag: string, failImmediately: boolean): boolean => {
+const updateDependencies = (deps: PackageJsonDependencies, depsType: keyof PackageJson): boolean => {
     let hadError = false;
+    const saveFlag = depsType === 'dependencies' ? '--save' : '--save-dev';
+
+    console.log(`Update dependencies in '${depsType}' to latest versions...`);
 
     for (const packageName in deps) {
         const command = `npm install ${packageName}@latest ${saveFlag}`;
@@ -19,11 +24,7 @@ const updateDependencies = (deps: Record<string, string>, saveFlag: string, fail
         try {
             execSync(command, { stdio: 'inherit' });
         } catch (error) {
-            if (failImmediately) {
-                throw error;
-            }
-
-            console.warn(`Failed to update ${packageName}`, error);
+            console.error(`Failed to update ${packageName}`, error);
             hadError = true;
         }
     }
@@ -31,29 +32,30 @@ const updateDependencies = (deps: Record<string, string>, saveFlag: string, fail
     return hadError;
 };
 
-const main = (failImmediately: boolean): boolean => {
+const main = (): boolean => {
     const packageJsonString: string = fs.readFileSync('./package.json', 'utf8');
     const packageJson: PackageJson = JSON.parse(packageJsonString);
-    let hadError = false;
+
+    let dependenciesHadError = false;
+    let devDependenciesHadError = false;
 
     if (packageJson.dependencies) {
-        hadError = hadError || updateDependencies(packageJson.dependencies, '--save', failImmediately);
+        dependenciesHadError = updateDependencies(packageJson.dependencies, 'dependencies');
     }
 
     if (packageJson.devDependencies) {
-        hadError = hadError || updateDependencies(packageJson.devDependencies, '--save-dev', failImmediately);
+        devDependenciesHadError = updateDependencies(packageJson.devDependencies, 'devDependencies');
     }
 
-    return hadError;
+    return dependenciesHadError || devDependenciesHadError;
 };
 
 ((): void => {
     const failureExitCode = 1;
-    const failImmediately = process.argv.includes('--ci');
     let succeeded = true;
 
     try {
-        succeeded = main(failImmediately);
+        succeeded = main();
     } catch (error) {
         console.error(error);
         process.exit(failureExitCode);

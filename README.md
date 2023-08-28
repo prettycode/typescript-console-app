@@ -2,7 +2,6 @@
 
 -   Add Azure Pipeline YAML.
 -   Complete incomplete tasks (❌) irom README.md.
--   Add everything for requirement: any packages used in this project must be approved/disapproved according to a `.package-license-approvelist.json` file.
 -   `--check` version of `updateAllPackagesToLatest.ts` for CI
 
 ## Project npm Scripts
