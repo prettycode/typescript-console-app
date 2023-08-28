@@ -23,7 +23,7 @@ These **requirements** should be fulfilled by the available npm scripts in this 
 -   Developer must be able to run an npm script that fixes all fixable CI rule violations before committing code.
     (`npm run build:fix`)
 -   Developer must be able to run an npm script that checks for CI rule violations before committing code.
-    (`npm run build:ci`)
+    (`npm run ci`)
 
 The **npm scripts** available in this project:
 
@@ -75,7 +75,6 @@ The **CI rules** a branch must pass to succeed build validation:
 -   No code may have any coding guideline violations.
 -   No unit tests may be failing.
 -   The program must be able to execute without returning a non-zero exit code after building.
--   All the CI rules can be validated by running a single npm script (❌)
 
 The **build artifacts** that should be published for by each build:
 
