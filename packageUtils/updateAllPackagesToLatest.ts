@@ -1,5 +1,3 @@
-// TODO: Break the script into --check and --fix modes; this is really the --fix mode and there is no --check mode yet
-
 import fs from 'fs';
 import { execSync } from 'child_process';
 
