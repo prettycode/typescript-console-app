@@ -36,6 +36,7 @@ The **npm scripts** available in this project:
 -   `outdated:fix:latest` — Updates all packages in `package.json` to latest _major_ version, and saves the new version numbers to `package.json` and `package-lock.json`.
 -   `audit:ci` — Runs a security audit without making any changes. Non-zero exit code if it finds _any_-severity package vulnerability.
 -   `audit:fix` — Updates packages that have security vulnerabilities, and saves the new version numbers to `package.json` and `package-lock.json`. Forces _major_ semver version changes if necessary.
+-   `licenses:ci` — Checks that all `package.json` dependencies have allowed licenses.
 -   `prettier:ci` — Checks if files conform to Prettier's styling rules. Non-zero exit code if violations are found.
 -   `prettier:fix` — Automatically fixes Prettier styling violations by reformatting files. Run _before_ linting.
 -   `lint:ci` — Checks for linting violations. Non-zero exit code if it finds _any_ violations.

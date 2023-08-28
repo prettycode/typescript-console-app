@@ -45,21 +45,21 @@ const main = (): boolean => {
         devDependenciesHadError = updateDependencies(packageJson.devDependencies, 'devDependencies');
     }
 
-    return dependenciesHadError || devDependenciesHadError;
+    return !dependenciesHadError && !devDependenciesHadError;
 };
 
 ((): void => {
-    const failureExitCode = 1;
+    const failureNonZeroExitCode = 1;
     let succeeded = true;
 
     try {
         succeeded = main();
     } catch (error) {
         console.error(error);
-        process.exit(failureExitCode);
+        process.exit(failureNonZeroExitCode);
     }
 
     if (!succeeded) {
-        process.exit(failureExitCode);
+        process.exit(failureNonZeroExitCode);
     }
 })();
