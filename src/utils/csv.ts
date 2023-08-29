@@ -1,13 +1,19 @@
+/**
+ * Convert an array of objects to a CSV string. For example:
+ *
+ * const people = [{ ...male, name: 'Chris' }, { ...female, name: 'Kayti' }];
+ * const peopleCsv = csv(people); // "gender","name"\n"male","Chris"\n"female","Kayti"
+ */
+
 export const csv = (array: Array<Record<string, string | number | boolean | undefined | object>>): string =>
-    [
-        Object.keys(array[0] || {}),
-        ...array.map(
-            (item) =>
-                '"' +
-                Object.values(item)
-                    // '\x27' is the hex code for the single quote character
-                    .map((item) => item?.toString().replace(/"/g, '\x27'))
-                    .join('","') +
-                '"'
-        )
-    ].join('\n');
+    !array.length
+        ? ''
+        : [
+              `"${Object.keys(array[0] || {}).join('","')}"`,
+              ...array.map(
+                  (item) =>
+                      `"${Object.values(item)
+                          .map((item) => item?.toString().replace(/"/g, '""'))
+                          .join('","')}"`
+              )
+          ].join('\n');
