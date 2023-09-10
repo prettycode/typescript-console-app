@@ -21,9 +21,19 @@ const memoryCache: Record<string, string> = {};
 const safeFilenameCacheKey = (key: string): string =>
     path.join(cachePathRoot, `${safeFilename(key)}.${hashCode(key)}.json`);
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const log = (skipLogInfo: boolean, ...args: Array<any>): void => {
+    if (skipLogInfo) {
+        return;
+    }
+
+    console.info(...args);
+};
+
 /**
  * Make sure we can read from/write to the cache directory before we actually try to. The function is invoked upon
- * module import, but can be invoked again later to change the cache directory.
+ * module import, but can be invoked again later to change the cache directory. Note that if/when the cache path is
+ * changed, the existing cached files are not moved to the new path.
  */
 export const setFileCachePath = async (cachePath?: string): Promise<void> => {
     if (cachePath) {
@@ -35,27 +45,34 @@ export const setFileCachePath = async (cachePath?: string): Promise<void> => {
     }
 };
 
-export const fileCacheGet = async <TReturn>(key: string): Promise<TReturn | undefined> => {
+export const fileCacheGet = async <TReturn>(key: string, skipLogInfo: boolean = true): Promise<TReturn | undefined> => {
     const cacheKey = safeFilenameCacheKey(key);
-    let cacheContents: string | undefined = memoryCache[cacheKey];
+    let memoryCacheEntry: string | undefined = memoryCache[cacheKey];
 
-    if (!cacheContents) {
-        const cacheEntryExists = await fileExists(cacheKey);
+    if (!memoryCacheEntry) {
+        log(skipLogInfo, `${fileCacheGet.name}: Not in memory cache: '${key}'`);
 
-        if (!cacheEntryExists) {
+        const diskCacheEntryExists = await fileExists(cacheKey);
+
+        if (!diskCacheEntryExists) {
+            log(skipLogInfo, `${fileCacheGet.name}: Not in disk cache: '${key}'`);
             return undefined;
         }
 
-        memoryCache[cacheKey] = cacheContents = await getFileText(cacheKey);
+        log(skipLogInfo, `${fileCacheGet.name}: Found in disk cache: '${key}'\nPutting in memory cache: '${key}'`);
+        memoryCache[cacheKey] = memoryCacheEntry = await getFileText(cacheKey);
+    } else {
+        log(skipLogInfo, `${fileCacheGet.name}: Found in disk memory cache: '${key}'`);
     }
 
-    return jsonDeserialize(cacheContents);
+    return jsonDeserialize(memoryCacheEntry);
 };
 
-export const fileCachePut = async <T>(key: string, value: T): Promise<void> => {
+export const fileCachePut = async <T>(key: string, value: T, skipLogInfo: boolean = true): Promise<void> => {
     const cacheKey = safeFilenameCacheKey(key);
     const cacheContents = jsonSerialize(value);
 
+    log(skipLogInfo, `${fileCachePut.name}: Writing to memory and disk caches: '${key}'`);
     memoryCache[cacheKey] = cacheContents;
     await putFileText(cacheKey, cacheContents);
 };

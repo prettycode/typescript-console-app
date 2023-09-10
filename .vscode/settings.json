@@ -2,6 +2,5 @@
     "editor.rulers": [120],
     "typescript.updateImportsOnFileMove.enabled": "always",
     "editor.formatOnSave": true,
-    "eslint.format.enable": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

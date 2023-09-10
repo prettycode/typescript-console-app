@@ -64,9 +64,7 @@ function getAppConfig(): AppConfig {
 
 export async function main(): Promise<void> {
     const appConfig = getAppConfig();
-    // Disabling because the secretKey is intentionally being discarded
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { secretKey, ...logSafeAppConfig } = appConfig;
+    const { secretKey: _secretKey, ...logSafeAppConfig } = appConfig;
 
     console.log(logSafeAppConfig);
 }
